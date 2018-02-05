@@ -36,6 +36,8 @@ var _ = require('./');
 
 var _2 = _interopRequireDefault(_);
 
+var _3 = require('../');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ChainPrint = function () {
@@ -93,7 +95,7 @@ var ChainPrint = function () {
     key: 'prefixedKey',
     get: function get() {
 
-      var output = length(this.getKey()) ? [this.getPrefix(), this.getKey()].join(' ' + ChainPrint.prefixedKeySep + ' ') : this.getPrefix();
+      var output = (0, _3.length)(this.getKey()) ? [this.getPrefix(), this.getKey()].join(' ' + ChainPrint.prefixedKeySep + ' ') : this.getPrefix();
 
       return this.useBraceWrapping() ? '[' + output + ']' : output;
     }

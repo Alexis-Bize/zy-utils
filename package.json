@@ -2,7 +2,7 @@
     "name": "zy-utils",
     "description": "",
     "author": "Alexis Bize <alexis.bize@gmail.com>",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "private": false,
     "main": "./index.js",
