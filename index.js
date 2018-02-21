@@ -77,7 +77,7 @@ var getObjValues = exports.getObjValues = function getObjValues() {
 
     var values = [];
 
-    (0, _values2.default)(object).forEach(function (v) {
+    (0, _values2.default)(target).forEach(function (v) {
 
         if (false === _lodash2.default.isPlainObject(v)) {
             values.push(v);
