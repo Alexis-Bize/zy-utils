@@ -35,11 +35,7 @@ var __warnOnUndefinedKey = true;
  * MUST NOT BE EDITED - See "appSettings" key below
  * @returns {Object}
  */
-var BASE_SETTINGS = (0, _freeze2.default)({
-  users: {
-    roles: {}
-  }
-});
+var BASE_SETTINGS = (0, _freeze2.default)({});
 
 /**
  * App settings
