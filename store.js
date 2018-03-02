@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.getFromStore = exports.addToStore = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -12,82 +13,71 @@ var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
 
-var _ = require('./');
+var _2 = require('./');
+
+var _lodash = require('./lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Headers
- * @returns {Object}
- */
-var __headers = {};
-
-/**
- * Cookies
+ * Store
  * @returns {Array}
  */
-var __cookies = [];
+var __store = [];
 
 /**
- * Store headers
- * @param {Object} headers 
- * @param {Array} filter
+ * Add to store
+ * @param {mixed} prop 
+ * @param {Array} filter 
  */
-var storeHeaders = function storeHeaders(headers) {
-    var filter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+var addToStore = exports.addToStore = function addToStore(prefix, prop) {
+    var filter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
 
-    var filtered = (0, _assign2.default)({}, headers);
+    prefix = String(prefix || Date.now());
+    var filtered = null;
 
-    if ((0, _.length)(filter) !== 0) {
+    if (true === Array.isArray(prop)) {
+        filtered = prop.slice(0);
+    } else if (true === _lodash2.default.isPlainObject(prop)) {
+        filtered = (0, _assign2.default)({}, prop);
+    } else {
+        filtered = prop;
+        filter = [];
+    }
 
+    if ((0, _2.length)(filter) !== 0) {
         filter = filter.filter(function (f1) {
-            return (0, _.length)(f1) !== 0;
+            return (0, _2.length)(f1) !== 0;
         }).map(function (f2) {
             return f2.toLowerCase();
         });
-
-        (0, _keys2.default)(headers).forEach(function (header) {
-            if (false === (0, _.has)(header.toLowerCase(), filter)) {
-                delete filtered[header];
+        (true === Array.isArray(prop) ? prop : (0, _keys2.default)(prop)).forEach(function (k) {
+            if (false === (0, _2.has)(k.toLowerCase(), filter)) {
+                true === Array.isArray(prop) ? filtered.splice(filtered.indexOf(k.toLowerCase()), 1) : delete filtered[k];
             }
         });
     }
 
-    (0, _assign2.default)(__headers, filtered);
+    __store.push({
+        prefix: prefix,
+        content: filtered
+    });
 };
 
 /**
- * Store cookies
- * @param {Array} cookies 
+ * Get from store
+ * @param {prefix}
+ * @returns {Array}
  */
-var storeCookies = function storeCookies(cookies) {
-    __cookies = __cookies.concat(cookies);
-};
-
-/**
- * Get and flush headers
- * @returns {Object}
- */
-var getAndFlushHeaders = function getAndFlushHeaders() {
-    var headers = (0, _assign2.default)({}, __headers);
-    __headers = {};
-    return headers;
-};
-
-/**
- * Get and flush cookies
- * @returns {Object}
- */
-var getAndFlushCookies = function getAndFlushCookies() {
-    var cookies = __cookies.slice(0);
-    __cookies = [];
-    return cookies;
-};
-
-exports.default = {
-    storeHeaders: storeHeaders,
-    getAndFlushHeaders: getAndFlushHeaders,
-    storeCookies: storeCookies,
-    getAndFlushCookies: getAndFlushCookies
+var getFromStore = exports.getFromStore = function getFromStore(prefix) {
+    return prefix ? __store.filter(function (s) {
+        return s.prefix === prefix;
+    }).map(function (s) {
+        return s.content;
+    }).filter(function (r) {
+        return (0, _2.length)(r);
+    }) : __store;
 };
