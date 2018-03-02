@@ -1,3 +1,4 @@
-/lib
+/libg
 /node_modules
-.babelrc
+/test
+/*.js
