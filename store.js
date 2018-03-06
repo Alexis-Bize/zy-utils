@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getFromStore = exports.addToStore = undefined;
+exports.getFromStore = exports.addToStore = exports.flushFromStore = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -28,13 +28,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var __store = [];
 
 /**
+ * Flush from store
+ * @param {string} [prefix]
+ * @returns {Array}
+ */
+var flushFromStore = exports.flushFromStore = function flushFromStore(prefix) {
+    prefix ? __store = __store.filter(function (s, i) {
+        return s.prefix !== prefix;
+    }) : __store = [];
+    return __store;
+};
+
+/**
  * Add to store
+ * @param {string} prefix
  * @param {mixed} prop 
- * @param {Array} filter 
+ * @param {Array} [filter]
+ * @param {boolean} [override]
  */
 var addToStore = exports.addToStore = function addToStore(prefix, prop) {
     var filter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    var override = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
+
+    if (typeof filter === 'boolean') {
+        override = filter;
+        filter = [];
+    }
 
     prefix = String(prefix || Date.now());
     var filtered = null;
@@ -61,6 +81,10 @@ var addToStore = exports.addToStore = function addToStore(prefix, prop) {
         });
     }
 
+    if (true === override) {
+        flushFromStore(prefix);
+    }
+
     __store.push({
         prefix: prefix,
         content: filtered
@@ -69,7 +93,7 @@ var addToStore = exports.addToStore = function addToStore(prefix, prop) {
 
 /**
  * Get from store
- * @param {prefix}
+ * @param {string} [prefix]
  * @returns {Array}
  */
 var getFromStore = exports.getFromStore = function getFromStore(prefix) {
