@@ -80,5 +80,7 @@ var warnOnUndefinedKey = function warnOnUndefinedKey(warn) {
 
 exports.assign = assign;
 exports.get = get;
+exports.assignSettings = assign;
+exports.getSettings = get;
 exports.warnOnUndefinedKey = warnOnUndefinedKey;
 exports.default = appSettings;
