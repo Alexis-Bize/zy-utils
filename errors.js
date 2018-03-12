@@ -93,23 +93,23 @@ var appErrorKeys = (0, _2.toObject)((0, _keys2.default)(BASE_ERROR_KEYS).map(fun
 
 /**
  * Assign / extend current error keys
- * @param {Object} errors
- * @returns {Object}
+ * @param {Array} errors
  */
 var assignErrors = exports.assignErrors = function assignErrors() {
-    var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var errors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
 
-    if ((0, _2.length)(errors) === 0 || false === _lodash2.default.isPlainObject(errors)) {
-        console.warn('assignErrors :: Invalid or empty "errors" parameter');
-        return;
+    if (false === Array.isArray(errors)) {
+        errors = [errors];
     }
 
-    errors = (0, _2.toObject)((0, _keys2.default)(errors).map(function (key) {
-        return (0, _defineProperty3.default)({}, key.toUpperCase(), errors[key].concat([key.toUpperCase()]));
-    }));
-
-    (0, _assign2.default)(appErrorKeys, errors);
+    errors.forEach(function (err) {
+        if ((0, _2.length)(err) !== 0 && true === _lodash2.default.isPlainObject(err)) {
+            (0, _assign2.default)(appErrorKeys, (0, _2.toObject)((0, _keys2.default)(err).map(function (key) {
+                return (0, _defineProperty3.default)({}, key.toUpperCase(), err[key].concat([key.toUpperCase()]));
+            })));
+        }
+    });
 };
 
 /**

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.warnOnUndefinedKey = exports.get = exports.assign = undefined;
+exports.getSettings = exports.assignSettings = exports.warnOnUndefinedKey = exports.get = exports.assign = undefined;
 
 var _assign = require('babel-runtime/core-js/object/assign');
 
@@ -78,9 +78,12 @@ var warnOnUndefinedKey = function warnOnUndefinedKey(warn) {
   __warnOnUndefinedKey = !!warn;
 };
 
+var assignSettings = assign; // ALIAS
+var getSettings = get; // ALIAS
+
 exports.assign = assign;
 exports.get = get;
-exports.assignSettings = assign;
-exports.getSettings = get;
 exports.warnOnUndefinedKey = warnOnUndefinedKey;
+exports.assignSettings = assignSettings;
+exports.getSettings = getSettings;
 exports.default = appSettings;
